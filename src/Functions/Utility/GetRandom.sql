@@ -1,0 +1,10 @@
+﻿CREATE FUNCTION [dbo].[GetRandom]
+(
+	@Max FLOAT,
+	@Random FLOAT
+)
+RETURNS INT
+AS
+BEGIN
+	RETURN CONVERT(INT, @Random * @Max);
+END
