@@ -19,44 +19,44 @@ Other option is to download and restore [database backup (0.5GB)](https://advert
 Following query can be used to calculate campaign profitability based on the orders placed. It calculates gross and net profit for each campaign based on the price type (click or day) and the total price of the orders associated with the campaign.
 
 ```sql
-	WITH CampaignProfits (CampaignId, GrossProfit, NetProfit)
-	AS
-	(SELECT
-		c.[Id] AS CampaignId,
-		CASE
-			WHEN p.[PriceTypeId] = 'click'
-			THEN (SUM(o.[TotalPrice]) - p.[Price]) * COUNT(o.[TrackingId])
-			WHEN p.[PriceTypeId] = 'day'
-			THEN (SUM(o.[TotalPrice]) - p.[Price]) * DATEDIFF(DAY, c.[StartDate], c.[EndDate])
-			ELSE NULL
-		END AS GrossProfit,
-		CASE
-			WHEN p.[PriceTypeId] = 'click'
-			THEN (SUM(o.[TotalProfit]) -  p.[Price]) * COUNT(o.[TrackingId])
-			WHEN p.[PriceTypeId] = 'day'
-			THEN (SUM(o.[TotalProfit]) - p.[Price]) * DATEDIFF(DAY, c.[StartDate], c.[EndDate])
-			ELSE NULL
-		END AS NetProfit
-	FROM [marketing].[Campaign] c
-	JOIN [marketing].[Advertisement] a ON a.[CampaignId] = c.[Id]
-	JOIN [marketing].[Placement] p ON p.[Id] = a.[PlacementId]
-	JOIN [sales].[Order] o ON o.[TrackingId] IS NOT NULL AND  o.[TrackingId] = a.[TrackingId]
-	GROUP BY c.[Id], c.[StartDate], c.[EndDate], p.[PriceTypeId], p.[Price])
+WITH CampaignProfits (CampaignId, GrossProfit, NetProfit)
+AS
+(SELECT
+	c.[Id] AS CampaignId,
+	CASE
+		WHEN p.[PriceTypeId] = 'click'
+		THEN (SUM(o.[TotalPrice]) - p.[Price]) * COUNT(o.[TrackingId])
+		WHEN p.[PriceTypeId] = 'day'
+		THEN (SUM(o.[TotalPrice]) - p.[Price]) * DATEDIFF(DAY, c.[StartDate], c.[EndDate])
+		ELSE NULL
+	END AS GrossProfit,
+	CASE
+		WHEN p.[PriceTypeId] = 'click'
+		THEN (SUM(o.[TotalProfit]) -  p.[Price]) * COUNT(o.[TrackingId])
+		WHEN p.[PriceTypeId] = 'day'
+		THEN (SUM(o.[TotalProfit]) - p.[Price]) * DATEDIFF(DAY, c.[StartDate], c.[EndDate])
+		ELSE NULL
+	END AS NetProfit
+FROM [marketing].[Campaign] c
+JOIN [marketing].[Advertisement] a ON a.[CampaignId] = c.[Id]
+JOIN [marketing].[Placement] p ON p.[Id] = a.[PlacementId]
+JOIN [sales].[Order] o ON o.[TrackingId] IS NOT NULL AND  o.[TrackingId] = a.[TrackingId]
+GROUP BY c.[Id], c.[StartDate], c.[EndDate], p.[PriceTypeId], p.[Price])
 
+SELECT
+	c.[Name],
+	cp.[GrossProfit],
+	cp.[NetProfit]
+FROM [marketing].[Campaign] c
+CROSS APPLY
+(
 	SELECT
-		c.[Name],
-		cp.[GrossProfit],
-		cp.[NetProfit]
-	FROM [marketing].[Campaign] c
-	CROSS APPLY
-	(
-		SELECT
-			ISNULL(ROUND(SUM([GrossProfit]), 2), 0) AS GrossProfit,
-			ISNULL(ROUND(SUM([NetProfit]), 2), 0) AS NetProfit
-		FROM  [CampaignProfits]
-		WHERE [CampaignId] = c.[Id]
-	) cp
-	ORDER BY [NetProfit] DESC, [GrossProfit] DESC
+		ISNULL(ROUND(SUM([GrossProfit]), 2), 0) AS GrossProfit,
+		ISNULL(ROUND(SUM([NetProfit]), 2), 0) AS NetProfit
+	FROM  [CampaignProfits]
+	WHERE [CampaignId] = c.[Id]
+) cp
+ORDER BY [NetProfit] DESC, [GrossProfit] DESC
 ```
 
 ## Day Pricing Weekday Profitability
