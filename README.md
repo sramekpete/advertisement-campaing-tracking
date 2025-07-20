@@ -4,7 +4,7 @@
 
 Database can be populated using Visual Studio by deploying SQL Server project in src folder. For more info > [Get started with SQL database projects](https://learn.microsoft.com/en-us/sql/tools/sql-database-projects/get-started?view=sql-server-ver17&pivots=sq1-visual-studio).
 
-Other option is to download and restore backup (0.5GB) with 5m orders using [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver17).
+Other option is to download and restore [database backup (0.5GB)](https://advertisementcampaign.blob.core.windows.net/alza/db-5m-backup) with 5m orders using [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver17).
 
 ## Diagram
 
