@@ -23,6 +23,6 @@
 		CHECK ([Description] IS NULL OR LEN(TRIM([Description])) > 3),
 	CONSTRAINT [CHK_Placement_Height_And_Width_Are_Between_30_And_1200_Pixels]
 		CHECK ([Height] BETWEEN 30 AND 1200 and [Width] BETWEEN 30 AND 1200),
-		CONSTRAINT [CHK_Placement_Price_Greater_Than_Zero]
+	CONSTRAINT [CHK_Placement_Price_Greater_Than_Zero]
 		CHECK ([Price] > 0)
 )
