@@ -123,7 +123,7 @@ WHERE ([TrackingId] IS NOT NULL)
 
 ## Additional Constraints
 
-Additional constraints can be found attached to each script responsible for table creation under [src/Tables]() folder.
+Additional constraints can be found attached to each script responsible for table creation under [src/Tables](https://github.com/sramekpete/advertisement-campaing-tracking/tree/main/src/Tables) folder.
 
 Few applied constraints are:
 
