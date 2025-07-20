@@ -18,6 +18,8 @@ Other option is to download and restore [database backup (0.5GB)](https://advert
 
 Following query can be used to calculate campaign profitability based on the orders placed. It calculates gross and net profit for each campaign based on the price type (click or day) and the total price of the orders associated with the campaign.
 
+[src/queries/b-CampaignProfitability.sql](https://github.com/sramekpete/advertisement-campaing-tracking/blob/main/queries/b-CampaignProfitability.sql)
+
 ```sql
 WITH CampaignProfits (CampaignId, GrossProfit, NetProfit)
 AS
@@ -63,6 +65,8 @@ ORDER BY [NetProfit] DESC, [GrossProfit] DESC
 
 Following query can be used to calculate the profitability of campaigns with day pricing based on the weekday. It calculates the total profit for each campaign on each day of the week.
 
+[src/queries/c-DayPricingWeekdayProfitability.sql](https://github.com/sramekpete/advertisement-campaing-tracking/blob/main/queries/c-DayPricingWeekdayProfitability.sql)
+
 ```sql
 SELECT
 	DATENAME(WEEKDAY, DATEPART(WEEKDAY, f.[OrderDate])) AS [Weekday],
@@ -81,6 +85,9 @@ ORDER BY
 ## Indices
 
 Following indices can be used to improve the performance of the queries:
+
+[src/Indices](https://github.com/sramekpete/advertisement-campaing-tracking/tree/main/src/Indices)
+
 ```sql
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Marketing_Advertisement_CampaignId_Placement_Id_TrackingId]
 ON [marketing].[Advertisement]
