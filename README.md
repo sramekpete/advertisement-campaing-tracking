@@ -61,27 +61,18 @@ Following query can be used to calculate campaign profitability based on the ord
 Following query can be used to calculate the profitability of campaigns with day pricing based on the weekday. It calculates the total profit for each campaign on each day of the week.
 
 ```sql
-WITH CampaignDayProfits (CampaignId, DayOfWeek, TotalProfit)
-AS
-(SELECT
-	c.[Id] AS CampaignId,
-	DATENAME(WEEKDAY, o.[OrderDate]) AS DayOfWeek,
-	SUM(o.[TotalProfit]) AS TotalProfit
-FROM [marketing].[Campaign] c
-JOIN [marketing].[Advertisement] a ON a.[CampaignId] = c.[Id]
-JOIN [marketing].[Placement] p ON p.[Id] = a.[PlacementId]
-JOIN [sales].[Order] o ON o.[TrackingId] IS NOT NULL AND  o.[TrackingId] = a.[TrackingId]
-WHERE p.[PriceTypeId] = 'day'
-GROUP BY c.[Id], DATENAME(WEEKDAY, o.[OrderDate]))
-
 SELECT
-	c.[Name],
-	cd.[DayOfWeek],
-	ISNULL(ROUND(SUM(cd.[TotalProfit]), 2), 0) AS TotalProfit
-FROM [marketing].[Campaign] c
-JOIN [CampaignDayProfits] cd ON cd.[CampaignId] = c.[Id]
-GROUP BY c.[Name], cd.[DayOfWeek]
-ORDER BY c.[Name], cd.[DayOfWeek]
+	DATENAME(WEEKDAY, DATEPART(WEEKDAY, f.[OrderDate])) AS [Weekday],
+	SUM(f.[NetProfit]) AS NetProfit,
+	SUM(f.[GrossProfit]) AS GrossProfit
+FROM [report].[GetPricingTypeProfits] ('day') f
+GROUP BY DATEPART(WEEKDAY, f.[OrderDate])
+ORDER BY 	
+	CASE
+		WHEN ((DATEPART(WEEKDAY, f.[OrderDate]) % 7))  = 0
+			THEN (DATEPART(WEEKDAY, f.[OrderDate]) - 7)
+		ELSE DATEPART(WEEKDAY, f.[OrderDate])
+	END
 ```
 
 ## Indices
