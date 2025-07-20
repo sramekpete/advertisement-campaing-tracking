@@ -8,8 +8,8 @@ Other option is to download and restore [database backup (0.5GB)](https://advert
 
 ## Diagram
 
-![SQL Management Studio Diagram](https://raw.githubusercontent.com/andrewtorgu/advertisement-campaign-tracking/main/docs/database-diagram-1.png)
-![EF Core Power Tools Diagram](https://raw.githubusercontent.com/andrewtorgu/advertisement-campaign-tracking/main/docs/database-diagram-2.png)
+![SQL Management Studio Diagram](https://raw.githubusercontent.com/sramekpete/advertisement-campaign-tracking/main/docs/database-diagram-1.png)
+![EF Core Power Tools Diagram](https://raw.githubusercontent.com/sramekpete/advertisement-campaign-tracking/main/docs/database-diagram-2.png)
 
 ## Campaign Profitability
 
