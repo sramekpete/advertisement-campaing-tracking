@@ -1,4 +1,5 @@
-﻿CREATE NONCLUSTERED INDEX [IX_Sales_Order_TrackingId_OrderDate_Include_TotalPrice_ProfitMargin_TotalProfit_Filter_TrackingId_Not_Null]
+-- For consideration is to use Columnstore index for improved performance and compression
+CREATE NONCLUSTERED INDEX [IX_Sales_Order_TrackingId_OrderDate_Include_TotalPrice_ProfitMargin_TotalProfit_Filter_TrackingId_Not_Null]
 ON [sales].[Order]
 (
 	[TrackingId] ASC,
